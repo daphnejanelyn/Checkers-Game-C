@@ -352,7 +352,7 @@ int main()
         if (aTurn)
         {
             printf("Current pieces of Alpha: \n");
-            for (i; i < COL; i++)
+            for (i = 0; i < COL; i++)
             {
                 printf("| %d %d |\n", Alpha[i][0]+1, Alpha[i][1]+1);
             }
@@ -376,7 +376,7 @@ int main()
         else if (!aTurn)
         {
             printf("Current pieces of Beta: \n");
-            for (i; i < COL; i++)
+            for (i = 0; i < COL; i++)
             {
                 printf("| %d %d |\n", Beta[i][0]+1, Beta[i][1]+1);
             }
