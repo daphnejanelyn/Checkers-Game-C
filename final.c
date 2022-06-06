@@ -400,5 +400,7 @@ int main()
 
     } while (over == 0);
     
+    displayBoard(Board);
+    
     return 0;
 }
