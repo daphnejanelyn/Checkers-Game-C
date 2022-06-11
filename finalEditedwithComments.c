@@ -2,7 +2,14 @@
 
 #define ROW 7
 #define COL 5
+/*
+    This function displays the board with 
+    an updated placement of moving Alpha and Beta pieces.
 
+    @param Board[][COL] is the board where the pieces are located.
+    @param Alpha[][2] contains updated pieces of Alpha (denoted by 'O');
+    @param Beta[][2] contains updated pieces of Beta (denoted by 'X');
+*/
 void
 displayBoard(char Board[][COL], int Alpha[][2], int Beta[][2])
 {
@@ -40,6 +47,7 @@ displayBoard(char Board[][COL], int Alpha[][2], int Beta[][2])
             else
                 printf ("| %c ", Board[row][col]);
         }
+        /* Display legend and available pieces for Alpha and Beta  */
         if (row == 0)
         {
             printf("|\tO = Alpha");
@@ -80,8 +88,15 @@ displayBoard(char Board[][COL], int Alpha[][2], int Beta[][2])
 }
 
 /*
-    @param Pieces[][2] is either Alpha or Beta
-    @param *index is the POSITION of the piece that we're updating
+    This functions checks if the piece selected by the player is valid.
+
+    @param origRow is the user's row input for the position of the piece he wishes to move.
+    @param origCol is the user's column input for the position of the piece he wishes to move.
+    @param Pieces[][2] is either Alpha or Beta pieces.
+    @param *pieceNum is the POSITION of the piece that we're updating
+    
+    return 1 if the piece selected is found
+           0 if the piece selected is invalid
 */
 int
 PieceCheck (int origRow, int origCol, int Pieces[][2], int *pieceNum)
@@ -101,6 +116,19 @@ PieceCheck (int origRow, int origCol, int Pieces[][2], int *pieceNum)
     return 0;
 }
 
+/*
+    This function checks if the piece can be eaten or not. 
+
+    @param *ok is a state variable that indicates if the program can proceed to next turn
+    @param aTurn determines if it is Alpha or Beta's turn
+    @param nextRow is the users' row input for the position of the piece he wants to move it to
+    @param nextCol the users' column input for the position of the piece he wants to move it to
+    @param Board[][COL] is the board where the pieces are located
+
+    return 1 if piece can be eaten
+           0 if piece cannot be eaten
+*/
+
 int
 checkEat (int *ok, int aTurn, int nextRow, int nextCol, char Board[][COL])
 {
@@ -118,6 +146,22 @@ checkEat (int *ok, int aTurn, int nextRow, int nextCol, char Board[][COL])
     else
         return 0;
 }
+
+/*
+    This functions checks if the player's move is valid.
+
+    @param nextRow is the users' row input for the position of the piece he wants to move it to
+    @param nextCol the users' column input for the position of the piece he wants to move it to
+    @param origRow is the user's row input for the position of the piece he wishes to move.
+    @param origCol is the user's column input for the position of the piece he wishes to move.
+    @param aTurn determines if it is Alpha or Beta's turn
+    @param *ok is a state variable that indicates if the program can proceed to next turn
+    @param Board[][COL] is the board where the pieces are located
+
+    return 1 if it is a valid move for Alpha/Beta
+    return 2 if piece can be eaten
+    return 0 if it is an invalid move (piece cannot be eaten or movement is done backwards)
+*/
 
 int 
 checkMove(int nextRow, int nextCol, 
@@ -185,6 +229,21 @@ checkMove(int nextRow, int nextCol,
     return 0;
 }
 
+/*
+    This function moves the piece into a new location on the board.
+
+    @param aTurn determines if it is Alpha or Beta's turn
+    @param nextRow is the users' row input for the position of the piece he wants to move it to
+    @param nextCol the users' column input for the position of the piece he wants to move it to
+    @param origRow is the user's row input for the position of the piece he wishes to move.
+    @param origCol is the user's column input for the position of the piece he wishes to move.
+    @param Pieces[][2] is either Alpha or Beta pieces.
+    @param Board[][COL] is the board where the pieces are located
+    @param pieceNum is the POSITION of the piece that we're updating
+
+    
+
+*/
 void
 movePiece (int aTurn, int nextRow,
             int nextCol, int origRow,
@@ -202,6 +261,17 @@ movePiece (int aTurn, int nextRow,
     Pieces[pieceNum][0] = nextRow - 1; // row position of piece (y-axis)
     Pieces[pieceNum][1] = nextCol - 1; // col position of piece (x-axis)
 }
+
+/*
+    The function checks for the piece to be eaten and updates the value of the eaten piece to (-1,-1).
+    (-1, -1) is used to indicate that that piece of Alpha/Beta has already been eaten. 
+
+    @param aTurn determines if it is Alpha or Beta's turn
+    @param nextRow is the users' row input for the position of the piece he wants to move it to
+    @param nextCol the users' column input for the position of the piece he wants to move it to
+    @param Eaten[][2] is either Alpha or Beta's board, depending on which piece is being eaten.
+    @param *nElem updates the number of pieces left for Alpha or Beta
+*/
 
 void
 eatPiece(int aTurn, int nextRow,
@@ -222,8 +292,31 @@ eatPiece(int aTurn, int nextRow,
     }
 }
 
+/*
+    The function asks for user input to move Alpa/Beta pieces to the specified user coordinates.
+    
+    @param Board[][COL] is the board where the pieces are located
+    @param aTurn determines if it is Alpha or Beta's turn
+    @param Pieces[][2] is either Alpha or Beta pieces.
+    @param *ok is a state variable that indicates if the program can proceed to next turn
+    @param *nextRow is the users' row input for the position of the piece he wants to move it to
+    @param *nextCol the users' column input for the position of the piece he wants to move it to
+    @param *origRow is the user's row input for the position of the piece he wishes to move.
+    @param *origCol is the user's column input for the position of the piece he wishes to move.
+    @param *pieceNum is the POSITION of the piece that we're updating
+
+    return checkMoveVal: 
+            1 if it is a valid move for Alpha/Beta
+            2 if piece can be eaten
+            0 if it is an invalid move (piece cannot be eaten or movement is done backwards)
+*/
+
 int
-makeMove(char Board[][COL], int aTurn, int Pieces[][2], int *ok, int *nextRow, int *nextCol, int *origRow, int *origCol, int *pieceNum)
+makeMove(char Board[][COL], int aTurn, 
+        int Pieces[][2], int *ok, 
+        int *nextRow, int *nextCol, 
+        int *origRow, int *origCol, 
+        int *pieceNum)
 {
     int checkMoveVal;
     
@@ -264,9 +357,26 @@ makeMove(char Board[][COL], int aTurn, int Pieces[][2], int *ok, int *nextRow, i
 }
 
 
-/* Check if either Alpha or Beta has won yet */
+/* 
+    This function checks if Alpha or Beta can be declared as a winner and signal the end of the game.
+
+    @param aTurn determines if it is Alpha or Beta's turn
+    @param nElemA is the number of pieces left for Alpha
+    @param nElemB is the number of pieces left for Beta
+    @param E[][2] is an array containing the coordinates of Alpha's pieces before the game started.
+    @param Y[][2] is an array containing the coordinates of Beta's pieces before the game started.
+    @param Alpha[][2] is an array containing the updated coordinates of Alpha's pieces after each move.
+    @param Beta[][2] is an array containing the updated coordinates of Beta's pieces after each move.
+
+    return 1 if Alpha or Beta wins
+           0 if Alpha nor Beta has won
+
+*/
 int
-checkWin(int aTurn, int nElemA, int nElemB, int E[][2], int Y[][2], int Alpha[][2], int Beta[][2])
+checkWin(int aTurn, int nElemA, 
+        int nElemB, int E[][2], 
+        int Y[][2], int Alpha[][2], 
+        int Beta[][2])
 {
     // If it's Alpha's turn and Beta has no more pieces
     int i, j, nFound = 0; 
@@ -288,7 +398,6 @@ checkWin(int aTurn, int nElemA, int nElemB, int E[][2], int Y[][2], int Alpha[][
                     // Check if the Alpha piece reached a Y coordinate
                     if (Alpha[i][0] == Y[j][0] && Alpha[i][1] == Y[j][1])
                     {
-                        printf("nFound: = %d, nElemA = %d. \n", nFound, nElemA);
                         nFound++;
                     }
                 }
@@ -317,7 +426,6 @@ checkWin(int aTurn, int nElemA, int nElemB, int E[][2], int Y[][2], int Alpha[][
                     // Check if the Beta piece reached a Y coordinate
                     if (Beta[i][0] == E[j][0] && Beta[i][1] == E[j][1])
                     {
-                        printf("nFound: = %d, nElemB = %d. \n", nFound, nElemB);
                         nFound++;
                     }
         
@@ -331,7 +439,8 @@ checkWin(int aTurn, int nElemA, int nElemB, int E[][2], int Y[][2], int Alpha[][
     return 0;
 }
 
-int main()
+int 
+main()
 {
     int over = 0,
         ok = 0,
@@ -354,6 +463,8 @@ int main()
                         {' ', 'O', ' ', 'O', ' '}, 
                         {'O', ' ', 'O', ' ', 'O'}};
 
+    // Arrays for Alpha and Beta's coordinates that will be updated throughout the game
+
     int Alpha[5][2] = {{5,1}, // (6, 2)
                        {5,3}, // (6, 4)
                        {6,0}, // (7, 1)
@@ -365,6 +476,8 @@ int main()
                       {0,4}, // (1, 5)
                       {1,1}, // (2, 2)
                       {1,3}}; // (2, 4)
+    
+    // Arrays for Alpha and Beta's original coordinates before the game has started.
 
     int E[5][2] = {{5,1}, // (6, 2)
                    {5,3}, // (6, 4)
