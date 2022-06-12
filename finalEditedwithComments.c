@@ -451,7 +451,7 @@ main()
         nextRow, 
         nextCol,
         pieceNum;
-    
+    int row, col;
     int nElemAlpha = 5;
     int nElemBeta = 5;
     
@@ -533,6 +533,38 @@ main()
         }
 
     } while (over == 0);
+
+    // display board after win
+    printf ("\nFinal board display\n");
+    printf ("    1   2   3   4   5\n");
+    for (row = 0; row < ROW; row++)
+    {
+        printf ("  +---+---+---+---+---+\n");   
+        // After each row, print 5 columns
+        for (col = 0; col < COL; col++)
+        {
+            if (col == 0)
+                printf ("%d | %c ", row + 1, Board[row][col]);
+            else
+                printf ("| %c ", Board[row][col]);
+        }
+        /* Display legend and available pieces for Alpha and Beta  */
+        if (row == 0)
+        {
+            printf("|\tO = Alpha");
+        }
+        else if (row == 1)
+        {
+            printf("|\tX = Beta");
+        }
+        else
+        {
+            printf("|");
+        }
+        printf ("\n"); 
+    }
+    printf ("  +---+---+---+---+---+\n");
+
     
     return 0;
 }
