@@ -2,6 +2,46 @@
 
 #define ROW 7
 #define COL 5
+
+/* 
+    This function displays the instructions before the 
+    game begins
+*/
+void
+displayInstructions()
+{
+    printf("\n                   CHECKERS MECHANICS\n");
+    printf("-------------------------------------------------------\n");
+    printf("MAKING A MOVE\n\n");
+    printf("Players Alpha (0) and Beta (X) will take turns in\n");
+    printf("moving one of their a pieces. When it is a player's\n");
+    printf("turn to make a move, they will first have to input\n");
+    printf("the (y,x) coordinates of the piece they want to move.\n\n");
+    printf("They will then input the (y,x) coordinates they wish\n");
+    printf("to move the piece to.\n");
+    printf("-------------------------------------------------------\n");
+    printf("VALID MOVES\n\n");
+    printf("Pieces are only allowed to move one square at a time.\n");
+    printf("They can move vertically or diagonally forward, but\n");
+    printf("NOT backward or to the side.\n\n");
+    printf("Should an opponent's piece be in the square where\n");
+    printf("the player wishes to move to, the opponent's piece\n");
+    printf("will be eaten if the new square is DIAGONAL to the\n");
+    printf("origin square. Otherwise, the move is invalid\n\n");
+    printf("A player MAY NOT eat their own piece.\n");
+    printf("-------------------------------------------------------\n");
+    printf("HOW TO WIN\n\n");
+    printf("A player must either eat all of their opponent's\n");
+    printf("pieces OR have all their current pieces make it to the\n");
+    printf("other side of the board, positioned in the original\n");
+    printf("coordinates their opponent started with.\n\n");
+    printf("In case of a tie wherein there are no possible moves\n");
+    printf("left, the program will have to be manually terminated.\n");
+    printf("-------------------------------------------------------\n");
+    printf("\n                 YOU MAY NOW BEGIN PLAYING\n");
+
+
+}
 /*
     This function displays the board with 
     an updated placement of moving Alpha and Beta pieces.
@@ -35,7 +75,7 @@ displayBoard(char Board[][COL], int Alpha[][2], int Beta[][2])
     int row, col, i;
     
     // Print 7 rows
-    printf ("    1   2   3   4   5\n");
+    printf ("\n\n    1   2   3   4   5\n");
     for (row = 0; row < ROW; row++)
     {
         printf ("  +---+---+---+---+---+\n");   
@@ -84,7 +124,7 @@ displayBoard(char Board[][COL], int Alpha[][2], int Beta[][2])
         }
         printf ("\n"); 
     }
-    printf ("  +---+---+---+---+---+\n");
+    printf ("  +---+---+---+---+---+\n\n");
 }
 
 /*
@@ -191,7 +231,7 @@ checkMove(int nextRow, int nextCol,
             }
             else
             {
-                printf("Invalid move. Piece not Eaten.\n");
+                printf("Invalid move!\n");
                 return 0; 
             }
         }
@@ -219,13 +259,13 @@ checkMove(int nextRow, int nextCol,
             }
             else
             {
-                printf("Invalid move. Piece not Eaten.\n");
+                printf("Invalid move!\n");
                 return 0; 
             }
         }
     }
 
-    printf("Invalid move (don't move backwards or more than one space)\n");
+    printf("Invalid move!\n");
     return 0;
 }
 
@@ -491,9 +531,11 @@ main()
                    {1,1}, // (2, 2)
                    {1,3}}; // (2, 4)
 
+    displayInstructions();
     // Start the game, and keep going until over is True (1)
     do
     {
+        
         displayBoard(Board, Alpha, Beta);
         if (aTurn)
         {
