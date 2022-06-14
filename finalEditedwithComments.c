@@ -14,7 +14,7 @@ displayInstructions()
     printf("-------------------------------------------------------\n");
     printf("MAKING A MOVE\n\n");
     printf("Players Alpha (O) and Beta (X) will take turns in\n");
-    printf("moving one of their a pieces. When it is a player's\n");
+    printf("moving one of their pieces. When it is a player's\n");
     printf("turn to make a move, they will first have to input\n");
     printf("the (y,x) coordinates of the piece they want to move.\n\n");
     printf("They will then input the (y,x) coordinates they wish\n");
